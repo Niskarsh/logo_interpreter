@@ -70,6 +70,7 @@ public class Scanner {
     keywords.put("stop", TokenType.STOP);
     keywords.put("show", TokenType.SHOW);
     keywords.put("make", TokenType.MAKE);
+    keywords.put("null", TokenType.NULL);
 
 // //Maximum munch
   }
