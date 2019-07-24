@@ -11,9 +11,12 @@ import logo.lexer.*;
 import logo.parser.*;
 import logo.tools.prettyPrinter.AstPrinter;
 import logo.interpreter.Interpreter;
+import logo.errorHandlers.RuntimeError;
+
 
 public class Logo {
 
+	private static final Interpreter interpreter = new Interpreter();
 	static boolean hadError = false; //Static marker for parser errors
 	static boolean hadRuntimeError = false; //Static parser for Runtime errors
 
@@ -30,7 +33,9 @@ public class Logo {
 
   	private static void runFile(String path) throws IOException {
 	    byte[] bytes = Files.readAllBytes(Paths.get(path));        
-	    run(new String(bytes, Charset.defaultCharset()));          
+	    run(new String(bytes, Charset.defaultCharset()));
+	    if (hadError) System.exit(65);                   
+		if (hadRuntimeError) System.exit(70);      
   	}
 
   	private static void runPrompt() throws IOException {         
@@ -38,11 +43,19 @@ public class Logo {
 	    BufferedReader reader = new BufferedReader(input);
 
 	    for (;;) { 
-	      System.out.print("> ");                                  
-	      run(reader.readLine());                                  
+	      System.out.print("loGo >> ");                                  
+	      run(reader.readLine());
+	      hadError=false;
+	      hadRuntimeError=false;                                  
 	    }                                                          
   	}                                                            
 
+  	public static void runtimeError (RuntimeError error) {
+
+  		System.err.println (error.getMessage()+"\n[line "+error.token.line+"]");
+  		hadRuntimeError=true;
+
+  	}
 
 	public static void error(Token token, String message) {              
 	    if (token.type == TokenType.EOF) {                          
@@ -67,7 +80,8 @@ public class Logo {
 
 		if (hadError) return;
 
-		System.out.println(new Interpreter().print(expression));
+		interpreter.interpret(expression);
+		// System.out.println(new Interpreter().print(expression));
 
 	}
 
