@@ -10,6 +10,7 @@ import java.util.List;
 import logo.lexer.*;
 import logo.parser.*;
 import logo.tools.prettyPrinter.AstPrinter;
+import logo.interpreter.Interpreter;
 
 public class Logo {
 
@@ -66,7 +67,7 @@ public class Logo {
 
 		if (hadError) return;
 
-		System.out.println(new AstPrinter().print(expression));
+		System.out.println(new Interpreter().print(expression));
 
 	}
 
