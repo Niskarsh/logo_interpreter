@@ -5,8 +5,11 @@ import logo.lexer.TokenType;
 import logo.lexer.Scanner;
 import logo.parser.Expr;
 import logo.errorHandlers.ParseError;
+import logo.parser.Stmt;
 import logo.Logo;
 import java.util.List;
+import java.util.ArrayList;
+
 
 public class Parser {
 	private final List<Token> tokens;
@@ -60,12 +63,39 @@ public class Parser {
 	//fns defined according to precedence and associativity
 
 
-	public Expr parse() {
-		try {
-			return expression();
-		} catch (ParseError error) {
-			return null;
+	public List<Stmt> parse() {
+
+		List<Stmt> statements = new ArrayList<>();
+		while (!isAtEnd()) {
+			statements.add(statement());
 		}
+
+		return statements;
+		// try {
+		// 	return expression();
+		// } catch (ParseError error) {
+		// 	return null;
+		// }
+	}
+
+	private Stmt statement () {
+		if (match(TokenType.SHOW)) return printStatement();
+
+		return expressionStatement();
+	}
+
+	//printing work
+	private Stmt printStatement() {
+		Expr value = expression();
+		//blank space after it ends
+		return new Stmt.Print(value);
+	}
+
+	//default statement
+	private Stmt expressionStatement() {
+		Expr value = expression();
+		//blank space after it ends
+		return new Stmt.Expression(value);
 	}
 
 	//expression = equality

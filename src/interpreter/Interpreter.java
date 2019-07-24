@@ -1,12 +1,14 @@
 package logo.interpreter;
 
 import logo.parser.Expr;
+import logo.parser.Stmt;
 import logo.lexer.TokenType;
 import logo.lexer.Token;
 import logo.errorHandlers.RuntimeError;
 import logo.Logo;
+import java.util.List;
 
-public class Interpreter implements Expr.Visitor<Object> {
+public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
 
 	public Object print (Expr expr) {
@@ -14,14 +16,22 @@ public class Interpreter implements Expr.Visitor<Object> {
 	}
 
 	//wrapper around over-riding methods to provide exception handling
-	public void interpret (Expr expression) {
+	public void interpret (List<Stmt> statements) {
 		try {
-			Object value = evaluate (expression);
-			System.out.println(stringify(value));
+
+			for(Stmt statement: statements) {
+				execute(statement);
+			}
+			// Object value = evaluate (expression);
+			// System.out.println(stringify(value));
 		} catch (RuntimeError error) {
 			Logo.runtimeError(error);
 		}
 
+	}
+
+	private void execute (Stmt stmt) {
+		stmt.accept(this);
 	}
 
 	private String stringify (Object value) {
@@ -37,7 +47,7 @@ public class Interpreter implements Expr.Visitor<Object> {
 		return value.toString();
 	}
 
-	//Overriding interface methods
+	//Overriding Expression interface methods
 	@Override
 	public Object visitLiteralExpr (Expr.Literal expr) {
 		return expr.value;
@@ -133,6 +143,24 @@ public class Interpreter implements Expr.Visitor<Object> {
 		if (left==null) return false;
 
 		return left.equals(right);
+	}
+
+
+	//Overriding Statements interface methods
+	@Override
+	public Void visitExpressionStmt (Stmt.Expression stmt) {
+		evaluate(stmt.expression);
+		return null;
+
+	}
+
+	@Override
+	public Void visitPrintStmt (Stmt.Print stmt) {
+
+		Object value = evaluate(stmt.expression);
+		System.out.println(stringify(value));
+		return null;
+		
 	}
 
 }
