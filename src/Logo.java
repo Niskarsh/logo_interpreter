@@ -44,7 +44,7 @@ public class Logo {
 
 	    for (;;) { 
 	      System.out.print("loGo >> ");                                  
-	      run(reader.readLine());
+	      run(reader.readLine().toLowerCase());
 	      hadError=false;
 	      hadRuntimeError=false;                                  
 	    }                                                          

@@ -70,6 +70,7 @@ public class Scanner {
     keywords.put("stop", TokenType.STOP);
     keywords.put("show", TokenType.SHOW);
     keywords.put("make", TokenType.MAKE);
+    keywords.put("local", TokenType.LOCAL);
     keywords.put("null", TokenType.NULL);
 
 // //Maximum munch
@@ -135,6 +136,10 @@ public class Scanner {
   	}
     start++;
   	st = source.substring(start, current);
+    if (tokens.get(tokens.size()-1).type==TokenType.MAKE) {
+      addToken(TokenType.IDENTIFIER, ":"+st);
+      return;
+    }
   	addToken(TokenType.STRING, st);
   }
 
@@ -243,7 +248,9 @@ public class Scanner {
 			  	TokenType type = keywords.get(text);
 			  	if(type!=null) {
 			  		addToken(type);
-			  	}
+			  	} else {
+              addToken(TokenType.IDENTIFIER, text);
+          }
         }                                   
         break;
 

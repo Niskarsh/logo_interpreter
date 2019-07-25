@@ -67,7 +67,10 @@ public class Parser {
 
 		List<Stmt> statements = new ArrayList<>();
 		while (!isAtEnd()) {
-			statements.add(statement());
+			statements.add(declarations());
+
+
+			// statements.add(statement());
 		}
 
 		return statements;
@@ -77,6 +80,33 @@ public class Parser {
 		// 	return null;
 		// }
 	}
+
+	private Stmt declarations () {
+		try {
+			if (match(TokenType.MAKE)) return varDeclaration(TokenType.MAKE);
+			if (match(TokenType.LOCAL)) return varDeclaration(TokenType.LOCAL);
+
+			return statement ();
+
+		} catch (ParseError error) {
+			synchronize();
+			return null;
+		}
+	}
+
+	private Stmt  varDeclaration (TokenType type) {
+
+		Token name = consume(TokenType.IDENTIFIER, "Expect variable name");
+
+		Expr initializer = null;
+
+		if (type==TokenType.MAKE) {
+			initializer = expression();
+		}
+
+		return new Stmt.Var(name, initializer);
+	}
+
 
 	private Stmt statement () {
 		if (match(TokenType.SHOW)) return printStatement();
@@ -171,7 +201,7 @@ public class Parser {
 	    return primary();                        
   	}
 	
-	//primary = NUMBER | STRING | "false" | "true" | "null" | "(" expression ")" 
+	//primary = NUMBER | STRING | "false" | "true" | "null" | "(" expression ")" | IDENTIFIER 
 
 	private Expr primary () {
 		if (match(TokenType.FALSE)) {
@@ -190,6 +220,10 @@ public class Parser {
 			Expr expr = expression ();
 			consume (TokenType.RIGHT_BRACE, "Expecting ] after expression");
 			return new Expr.Grouping(expr);
+		}
+		//for identifiers
+		if (match(TokenType.IDENTIFIER)) {
+			return new Expr.Variable(previous());
 		}
 
 		throw error(peek(), "Expect expression");
