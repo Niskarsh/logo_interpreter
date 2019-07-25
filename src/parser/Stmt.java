@@ -2,13 +2,15 @@ package logo.parser;
 
 import logo.parser.Expr;
 import logo.lexer.Token;
+import java.util.List;
 
 public abstract class Stmt {
 
 	public interface Visitor<R> {
 		R visitExpressionStmt(Expression stmt);
 		R visitPrintStmt(Print stmt);
-		R visitVarStmt(Var stmt);		
+		R visitVarStmt(Var stmt);	
+		R visitBlockStmt(Block stmt);		
 	}
 
 	public abstract <R> R accept (Visitor<R> visitor);
@@ -51,6 +53,20 @@ public abstract class Stmt {
 			return visitor.visitVarStmt(this);
 		}
 
+
+	}
+
+	public static class Block extends Stmt {
+
+		public final List<Stmt> statements;
+
+		public Block (List<Stmt> statements) {
+			this.statements = statements;
+		}
+
+		public <R> R accept (Visitor<R> visitor) {
+			return visitor.visitBlockStmt(this);
+		}
 
 	}
 }

@@ -110,8 +110,20 @@ public class Parser {
 
 	private Stmt statement () {
 		if (match(TokenType.SHOW)) return printStatement();
+		if (match(TokenType.LEFT_BRACE)) return new Stmt.Block(block());
+
 
 		return expressionStatement();
+	}
+
+	private List<Stmt> block () {
+		List<Stmt> statements = new ArrayList<>();
+		while(!check(TokenType.RIGHT_BRACE)&&!isAtEnd()) {
+			statements.add (declarations());
+		}
+
+		consume (TokenType.RIGHT_BRACE, "Expected ] at closing of the block");
+		return statements;
 	}
 
 	//printing work
