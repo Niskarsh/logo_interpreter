@@ -109,6 +109,8 @@ public class Parser {
 
 
 	private Stmt statement () {
+
+		if (match(TokenType.REPEAT)) return repeatStatement();
 		if (match(TokenType.IF)) return ifStatement();
 		// if (match(TokenType.TEST)) return testStatement();
 		if (match(TokenType.IFELSE)) return ifElseStatement();
@@ -117,6 +119,13 @@ public class Parser {
 
 
 		return expressionStatement();
+	}
+
+	private Stmt repeatStatement () {
+		Expr condition = expression();
+		consume (TokenType.LEFT_BRACE, "Expected '[ before block'");
+		List<Stmt> block = block();
+		return new Stmt.Repeat(condition, block);
 	}
 
 	private Stmt ifStatement () {

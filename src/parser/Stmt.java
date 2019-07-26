@@ -13,6 +13,7 @@ public abstract class Stmt {
 		R visitBlockStmt(Block stmt);
 		R visitIfStmt(If stmt);
 		R visitIfElseStmt(IfElse stmt);
+		R visitRepeatStmt (Repeat stmt);
 
 	}
 
@@ -102,6 +103,22 @@ public abstract class Stmt {
 
 		public <R> R accept (Visitor<R> visitor) {
 			return visitor.visitIfElseStmt(this);
+		}
+
+	}
+
+	public static class Repeat extends Stmt {
+
+		public final List<Stmt> block;
+		public final Expr condition;
+
+		public Repeat (Expr condition, List<Stmt> block) {
+			this.condition = condition;
+			this.block = block;
+		}
+
+		public <R> R accept (Visitor<R> visitor) {
+			return visitor.visitRepeatStmt(this);
 		}
 
 	}

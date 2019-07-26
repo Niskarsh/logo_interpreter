@@ -248,4 +248,17 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
 	}
 
+	@Override
+	public Void visitRepeatStmt (Stmt.Repeat stmt) {
+		double i=0;
+		double condtn = (double)evaluate(stmt.condition);
+		while (i<condtn) {
+			executeBlock (stmt.block, new Environment(environment));
+			++i;
+		}
+
+		return null;
+
+	}
+
 }
