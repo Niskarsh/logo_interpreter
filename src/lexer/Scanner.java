@@ -223,6 +223,8 @@ public class Scanner {
 	    case '=': addToken(match('=') ? TokenType.EQUAL_EQUAL : TokenType.EQUAL); break;    
 	    case '<': addToken(match('=') ? TokenType.LESS_EQUAL : TokenType.LESS); break;      
 	    case '>': addToken(match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER); break;
+      case '&': addToken(match('&') ? TokenType.AND : null); break;
+      case '|': addToken(match('|') ? TokenType.OR : null); break;
 
 	    case '/':                                                       
 	        if (match('/')) {
