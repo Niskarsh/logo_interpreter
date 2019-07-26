@@ -10,7 +10,10 @@ public abstract class Stmt {
 		R visitExpressionStmt(Expression stmt);
 		R visitPrintStmt(Print stmt);
 		R visitVarStmt(Var stmt);	
-		R visitBlockStmt(Block stmt);		
+		R visitBlockStmt(Block stmt);
+		R visitIfStmt(If stmt);
+		R visitIfElseStmt(IfElse stmt);
+
 	}
 
 	public abstract <R> R accept (Visitor<R> visitor);
@@ -66,6 +69,39 @@ public abstract class Stmt {
 
 		public <R> R accept (Visitor<R> visitor) {
 			return visitor.visitBlockStmt(this);
+		}
+
+	}
+
+	public static class If extends Stmt {
+
+		public final List<Stmt> thenBlock;
+		public final Expr condition;
+
+		public If (Expr condition, List<Stmt> thenBlock) {
+			this.condition = condition;
+			this.thenBlock = thenBlock;
+		}
+
+		public <R> R accept (Visitor<R> visitor) {
+			return visitor.visitIfStmt(this);
+		}
+
+	}
+
+	public static class IfElse extends Stmt {
+
+		public final List<Stmt> thenBlock, elseBlock;
+		public final Expr condition;
+
+		public IfElse (Expr condition, List<Stmt> thenBlock, List<Stmt> elseBlock) {
+			this.condition = condition;
+			this.thenBlock = thenBlock;
+			this.elseBlock = elseBlock;
+		}
+
+		public <R> R accept (Visitor<R> visitor) {
+			return visitor.visitIfElseStmt(this);
 		}
 
 	}

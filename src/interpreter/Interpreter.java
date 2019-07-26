@@ -155,6 +155,8 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
 
 	//Overriding Statements interface methods
+
+	//Evalutes expressions
 	@Override
 	public Void visitExpressionStmt (Stmt.Expression stmt) {
 		evaluate(stmt.expression);
@@ -162,6 +164,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
 	}
 
+	// Evalutes printing statements
 	@Override
 	public Void visitPrintStmt (Stmt.Print stmt) {
 
@@ -171,6 +174,8 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 		
 	}
 
+
+	//Stores variables
 	@Override
 	public Void visitVarStmt (Stmt.Var stmt) {
 
@@ -183,6 +188,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 		return null;
 	}
 
+	//excutes block and introduces new scope
 	@Override
 	public Void visitBlockStmt (Stmt.Block stmt) {
 
@@ -201,6 +207,30 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 		} finally {
 			this.environment = previous;
 		}
+
+	}
+
+	@Override
+	public Void visitIfStmt (Stmt.If stmt) {
+
+		if (isTruthy(evaluate(stmt.condition))) {
+			executeBlock (stmt.thenBlock, new Environment(environment));
+		}
+
+		return null;
+
+	}
+
+	@Override
+	public Void visitIfElseStmt (Stmt.IfElse stmt) {
+
+		if (isTruthy(evaluate(stmt.condition))) {
+			executeBlock (stmt.thenBlock, new Environment(environment));
+		} else {
+			executeBlock (stmt.elseBlock, new Environment(environment));
+		}
+
+		return null;
 
 	}
 

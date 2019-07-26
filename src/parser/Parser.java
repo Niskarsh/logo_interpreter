@@ -109,11 +109,47 @@ public class Parser {
 
 
 	private Stmt statement () {
+		if (match(TokenType.IF)) return ifStatement();
+		// if (match(TokenType.TEST)) return testStatement();
+		if (match(TokenType.IFELSE)) return ifElseStatement();
 		if (match(TokenType.SHOW)) return printStatement();
 		if (match(TokenType.LEFT_BRACE)) return new Stmt.Block(block());
 
 
 		return expressionStatement();
+	}
+
+	private Stmt ifStatement () {
+		Expr condition;
+		if (match (TokenType.LEFT_BRACE)) {
+			condition = expression();
+			consume (TokenType.RIGHT_BRACE, "Expected ']' at end of condition");
+		} else {
+			condition = expression();
+		}
+
+		consume (TokenType.LEFT_BRACE, "Expected '[' before true block");
+		List<Stmt> thenBlock = block();
+		return new Stmt.If(condition, thenBlock);
+
+	}
+
+	private Stmt ifElseStatement () {
+		Expr condition;
+		
+		if (match (TokenType.LEFT_BRACE)) {
+			condition = expression();
+			consume (TokenType.RIGHT_BRACE, "Expected ']' at end of condition");
+		} else {
+			condition = expression();
+		}
+
+		consume (TokenType.LEFT_BRACE, "Expected '[' before true block");
+		List<Stmt> thenBlock = block();
+		consume (TokenType.LEFT_BRACE, "Expected '[' before false block");
+		List<Stmt> elseBlock = block();
+		return new Stmt.IfElse(condition, thenBlock, elseBlock);
+
 	}
 
 	private List<Stmt> block () {
@@ -122,7 +158,7 @@ public class Parser {
 			statements.add (declarations());
 		}
 
-		consume (TokenType.RIGHT_BRACE, "Expected ] at closing of the block");
+		consume (TokenType.RIGHT_BRACE, "Expected ']' at closing of the block");
 		return statements;
 	}
 
@@ -272,13 +308,9 @@ public class Parser {
 				case REPEAT:
 				case RUN:
 				case FOREVER:
-				case FD:
 				case FORWARD:
-				case BK:
 				case BACK:
-				case RT:
 				case RIGHT:
-				case LT:
 				case LEFT:
 				case CS:
 				case CLEARSCREEN:

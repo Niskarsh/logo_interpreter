@@ -17,9 +17,15 @@ public class Scanner {
 
   static {
     keywords = new HashMap<>();
-    keywords.put("else", TokenType.ELSE);
     keywords.put("false", TokenType.FALSE);
     keywords.put("if", TokenType.IF);
+    keywords.put("ifelse", TokenType.IFELSE);
+    keywords.put("test", TokenType.TEST);
+    keywords.put("iftrue", TokenType.IFTRUE);
+    keywords.put("ift", TokenType.IFTRUE);
+    keywords.put("iffalse", TokenType.IFFALSE);
+    keywords.put("iff", TokenType.IFFALSE);
+    keywords.put("stop", TokenType.STOP);
     keywords.put("for", TokenType.FOR);
     keywords.put("until", TokenType.UNTIL);
     keywords.put("dountil", TokenType.DOUNTIL);
@@ -64,10 +70,13 @@ public class Scanner {
     keywords.put("setpos", TokenType.SETPOS);
     keywords.put("setx", TokenType.SETX);
     keywords.put("sety", TokenType.SETY);
+    keywords.put("&&", TokenType.AND);
+    keywords.put("||", TokenType.OR);
+    keywords.put("!", TokenType.NOT);
     keywords.put("and", TokenType.AND);
     keywords.put("or", TokenType.OR);
     keywords.put("not", TokenType.NOT);
-    keywords.put("stop", TokenType.STOP);
+    keywords.put("xor", TokenType.XOR);
     keywords.put("show", TokenType.SHOW);
     keywords.put("make", TokenType.MAKE);
     keywords.put("local", TokenType.LOCAL);
@@ -132,6 +141,11 @@ public class Scanner {
   		if (peek()=='\n') {
   			line++;
   		}
+      //escape character '\'
+      if (peek()!='\\') {
+        //fill logic
+
+      }
   		advance();
   	}
     start++;
