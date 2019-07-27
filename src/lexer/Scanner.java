@@ -52,6 +52,10 @@ public class Scanner {
     keywords.put("left", TokenType.LEFT);
     keywords.put("cs", TokenType.CLEARSCREEN);
     keywords.put("clearscreen", TokenType.CLEARSCREEN);
+    keywords.put("ht", TokenType.HIDE_TURTLE);
+    keywords.put("hideturtle", TokenType.HIDE_TURTLE);
+    keywords.put("st", TokenType.SHOW_TURTLE);
+    keywords.put("showturtle", TokenType.SHOW_TURTLE);
     keywords.put("pu", TokenType.PENUP);
     keywords.put("penup", TokenType.PENUP);
     keywords.put("pd", TokenType.PENDOWN);
@@ -63,7 +67,12 @@ public class Scanner {
     keywords.put("erase", TokenType.ERASE);
     keywords.put("reverse", TokenType.REVERSE);
     keywords.put("setpencolor", TokenType.SETPENCOLOR);
+    keywords.put("spc", TokenType.SETPENCOLOR);
+    keywords.put("pc", TokenType.SETPENCOLOR);
+    keywords.put("setpc", TokenType.SETPENCOLOR);
     keywords.put("setpensize", TokenType.SETPENSIZE);
+    keywords.put("setps", TokenType.SETPENSIZE);
+    keywords.put("pt", TokenType.SETPENSIZE);
     keywords.put("setbackground", TokenType.SETBACKGROUND);
     keywords.put("setscreencolor", TokenType.SETBACKGROUND);
     keywords.put("setsc", TokenType.SETSC);

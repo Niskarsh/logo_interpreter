@@ -290,9 +290,9 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 	public Void visitForwardsStmt (Stmt.Forwards stmt) {
 		Logo.hasGraphics = true;
 		if (stmt.forward) {
-			Logo.graphicSets.add (new Graphics((double)evaluate(stmt.value), 0, Logo.pd, Logo.color, Logo.pensize));	
+			Logo.graphicSets.add (new Graphics((double)evaluate(stmt.value), 0, Logo.pd, Logo.turtle, Logo.color, Logo.pensize));	
 		} else {
-			Logo.graphicSets.add (new Graphics(-(double)evaluate(stmt.value), 0, Logo.pd, Logo.color, Logo.pensize));
+			Logo.graphicSets.add (new Graphics(-(double)evaluate(stmt.value), 0, Logo.pd, Logo.turtle, Logo.color, Logo.pensize));
 		}
 		
 		return null;
@@ -302,9 +302,9 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 	public Void visitRightStmt (Stmt.Right stmt) {
 		Logo.hasGraphics = true;
 		if (stmt.forward) {
-			Logo.graphicSets.add (new Graphics(0,(double)evaluate(stmt.value), Logo.pd, Logo.color, Logo.pensize));	
+			Logo.graphicSets.add (new Graphics(0,(double)evaluate(stmt.value), Logo.pd, Logo.turtle, Logo.color, Logo.pensize));	
 		} else {
-			Logo.graphicSets.add (new Graphics(0,-(double)evaluate(stmt.value), Logo.pd, Logo.color, Logo.pensize));
+			Logo.graphicSets.add (new Graphics(0,-(double)evaluate(stmt.value), Logo.pd, Logo.turtle, Logo.color, Logo.pensize));
 		}
 		
 		return null;
@@ -314,6 +314,30 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 	public Void visitPenStmt (Stmt.Pen stmt) {
 		Logo.hasGraphics = true;
 		Logo.pd = stmt.pd;
+		
+		return null;
+	}
+
+	@Override
+	public Void visitTurtleStmt (Stmt.Turtle stmt) {
+		Logo.hasGraphics = true;
+		Logo.turtle = stmt.tl;
+		
+		return null;
+	}
+
+	@Override
+	public Void visitPenColorStmt (Stmt.PenColor stmt) {
+		Logo.hasGraphics = true;
+		Logo.color = (double)evaluate(stmt.color);
+		
+		return null;
+	}
+
+	@Override
+	public Void visitPenSizeStmt (Stmt.PenSize stmt) {
+		Logo.hasGraphics = true;
+		Logo.pensize = (double)evaluate(stmt.pensize);
 		
 		return null;
 	}

@@ -18,6 +18,9 @@ public abstract class Stmt {
 		R visitForwardsStmt (Forwards stmt);
 		R visitRightStmt (Right stmt);
 		R visitPenStmt (Pen stmt);
+		R visitTurtleStmt (Turtle stmt);
+		R visitPenColorStmt (PenColor stmt);
+		R visitPenSizeStmt (PenSize stmt);
 	}
 
 	public abstract <R> R accept (Visitor<R> visitor);
@@ -182,6 +185,45 @@ public abstract class Stmt {
 
 		public <R> R accept (Visitor<R> visitor) {
 			return visitor.visitPenStmt(this);
+		}
+	}
+
+	public static class Turtle extends Stmt {
+
+		public boolean tl;
+
+		public Turtle (boolean tl) {
+			this.tl = tl;
+		}
+
+		public <R> R accept (Visitor<R> visitor) {
+			return visitor.visitTurtleStmt(this);
+		}
+	}
+
+	public static class PenColor extends Stmt {
+
+		public Expr color;
+
+		public PenColor (Expr color) {
+			this.color = color;
+		}
+
+		public <R> R accept (Visitor<R> visitor) {
+			return visitor.visitPenColorStmt(this);
+		}
+	}
+
+	public static class PenSize extends Stmt {
+
+		public Expr pensize;
+
+		public PenSize (Expr pensize) {
+			this.pensize = pensize;
+		}
+
+		public <R> R accept (Visitor<R> visitor) {
+			return visitor.visitPenSizeStmt(this);
 		}
 	}
 }

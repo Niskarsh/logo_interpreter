@@ -23,8 +23,9 @@ public class Logo {
 	public static boolean hasGraphics = false; //Checks for Statements pertaining graphics
 	public static List<Object> graphicSets = new ArrayList<>();
 	public static boolean pd = true;
-	public static int color = 0;
-	public static int pensize = 1;
+	public static boolean turtle = true;
+	public static double color = 0;
+	public static double pensize = 1;
 
 	public static void main(String[] args) throws IOException {
 	    if (args.length > 1) {                                   

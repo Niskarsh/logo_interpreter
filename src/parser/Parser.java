@@ -116,6 +116,10 @@ public class Parser {
 		if (match(TokenType.LEFT)) return rightStatement(false);
 		if (match(TokenType.PENUP)) return penStatement(false);
 		if (match(TokenType.PENDOWN)) return penStatement(true);
+		if (match(TokenType.HIDE_TURTLE)) return turtleStatement(false);
+		if (match(TokenType.SHOW_TURTLE)) return turtleStatement(true);
+		if (match(TokenType.SETPENSIZE)) return pensizeStatement();
+		if (match(TokenType.SETPENCOLOR)) return penColorStatement();
 		if (match(TokenType.REPEAT)) return repeatStatement();
 		if (match(TokenType.WHILE)) return whileStatement();
 		if (match(TokenType.IF)) return ifStatement();
@@ -126,6 +130,20 @@ public class Parser {
 
 
 		return expressionStatement();
+	}
+
+	private Stmt penColorStatement() {
+		Expr value = expression();
+		return new Stmt.PenColor(value);
+	}
+
+	private Stmt pensizeStatement() {
+		Expr value = expression();
+		return new Stmt.PenSize(value);
+	}
+
+	private Stmt turtleStatement(boolean tl) {
+		return new Stmt.Turtle(tl);
 	}
 
 	private Stmt penStatement(boolean pd) {
