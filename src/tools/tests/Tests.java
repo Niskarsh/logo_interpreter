@@ -8,7 +8,7 @@ class Tests {
 		// Scanner chk = new Scanner("to tree :size\nif :size < 5 [forward :size back :size stop]\nforward :size/3\nleft 30 tree :size*2/3 right 30\nforward :size/6\nright 25 tree :size/2 left 25\nforward :size/3\nright 25 tree :size/2 left 25\nforward :size/6\nback :size\nend\nclearscreen\ntree 150");
 		// Scanner chk = new Scanner("make \"aa 45");
 
-		Scanner chk = new Scanner("if [2<3&&4>1] [show \"Works ]");
+		Scanner chk = new Scanner("show random 20");
 
  		System.out.println(chk.scanTokens());
 	}

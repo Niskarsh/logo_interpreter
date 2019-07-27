@@ -14,7 +14,7 @@ public abstract class Stmt {
 		R visitIfStmt(If stmt);
 		R visitIfElseStmt(IfElse stmt);
 		R visitRepeatStmt (Repeat stmt);
-
+		R visitWhileStmt (While stmt);
 	}
 
 	public abstract <R> R accept (Visitor<R> visitor);
@@ -119,6 +119,22 @@ public abstract class Stmt {
 
 		public <R> R accept (Visitor<R> visitor) {
 			return visitor.visitRepeatStmt(this);
+		}
+
+	}
+
+	public static class While extends Stmt {
+
+		public final List<Stmt> block;
+		public final Expr condition;
+
+		public While (Expr condition, List<Stmt> block) {
+			this.condition = condition;
+			this.block = block;
+		}
+
+		public <R> R accept (Visitor<R> visitor) {
+			return visitor.visitWhileStmt(this);
 		}
 
 	}

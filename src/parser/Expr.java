@@ -13,6 +13,7 @@ public abstract class Expr {
 		R visitUnaryExpr (Unary expr);
 		R visitVariableExpr (Variable expr);
 		R visitLogicalExpr (Logical expr);
+		R visitRandomExpr (Random expr);
 	}
 
 	public abstract <R> R accept (Visitor<R> visitor);
@@ -104,6 +105,19 @@ public abstract class Expr {
 		public <R> R accept (Visitor<R> visitor) {
 	    	return visitor.visitLogicalExpr(this);
 	    }
+	}
+
+	public static class Random extends Expr {
+
+		public final Expr limit;
+
+		public Random (Expr limit) {
+			this.limit = limit;
+		}
+
+		public <R> R accept (Visitor<R> visitor) {
+			return visitor.visitRandomExpr(this);
+		}
 	}
 
 

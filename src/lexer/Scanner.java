@@ -80,6 +80,7 @@ public class Scanner {
     keywords.put("show", TokenType.SHOW);
     keywords.put("make", TokenType.MAKE);
     keywords.put("local", TokenType.LOCAL);
+    keywords.put("random", TokenType.RANDOM);
     keywords.put("null", TokenType.NULL);
 
 // //Maximum munch

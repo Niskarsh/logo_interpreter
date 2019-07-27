@@ -24,6 +24,8 @@ public enum TokenType {
 	SETPOS, SETXY, SETX, SETY, AND, OR, NOT, XOR,
 	SHOW, MAKE, LOCAL,
 
+	RANDOM,
+
 	NULL,
 
 	EOF

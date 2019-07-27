@@ -8,6 +8,7 @@ import logo.errorHandlers.RuntimeError;
 import logo.interpreter.Environment;
 import logo.Logo;
 import java.util.List;
+import java.lang.Math;
 
 public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
@@ -92,6 +93,19 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 		}
 
 		return evaluate(expr.right);
+	}
+
+
+	@Override
+	public Object visitRandomExpr (Expr.Random expr) {
+		
+		double limit = (double)evaluate(expr.limit);
+		limit = Math.random()*limit;
+
+
+
+		return Math.floor(limit);
+
 	}
 
 	private void checkNumberOperand (Token operator, Object operand) {
@@ -249,6 +263,16 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 	}
 
 	@Override
+	public Void visitWhileStmt (Stmt.While stmt) {
+		
+		while (isTruthy(evaluate(stmt.condition))) {
+	    	executeBlock(stmt.block, new Environment(environment));                       
+	    }                                           
+	    return null; 
+
+	}
+
+	@Override
 	public Void visitRepeatStmt (Stmt.Repeat stmt) {
 		double i=0;
 		double condtn = (double)evaluate(stmt.condition);
@@ -260,5 +284,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 		return null;
 
 	}
+
+	
 
 }
