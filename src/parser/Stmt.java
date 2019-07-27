@@ -15,6 +15,7 @@ public abstract class Stmt {
 		R visitIfElseStmt(IfElse stmt);
 		R visitRepeatStmt (Repeat stmt);
 		R visitWhileStmt (While stmt);
+		R visitForwardsStmt (Forwards stmt);
 	}
 
 	public abstract <R> R accept (Visitor<R> visitor);
@@ -137,5 +138,18 @@ public abstract class Stmt {
 			return visitor.visitWhileStmt(this);
 		}
 
+	}
+
+	public static class Forwards extends Stmt {
+
+		public final Expr value;
+
+		public Forwards (Expr value) {
+			this.value = value;
+		}
+
+		public <R> R accept (Visitor<R> visitor) {
+			return visitor.visitForwardsStmt(this);
+		}
 	}
 }

@@ -7,6 +7,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;                                  
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.ArrayList;
 import logo.lexer.*;
 import logo.parser.*;
 import logo.tools.prettyPrinter.AstPrinter;
@@ -19,6 +20,11 @@ public class Logo {
 	private static final Interpreter interpreter = new Interpreter();
 	static boolean hadError = false; //Static marker for parser errors
 	static boolean hadRuntimeError = false; //Static parser for Runtime errors
+	public static boolean hasGraphics = false; //Checks for Statements pertaining graphics
+	public static List<Object> graphicSets = new ArrayList<>();
+	public static boolean pd = true;
+	public static int color = 0;
+	public static int pensize = 1;
 
 	public static void main(String[] args) throws IOException {
 	    if (args.length > 1) {                                   
@@ -82,6 +88,10 @@ public class Logo {
 		if (hadError) return;
 
 		interpreter.interpret(statements);
+
+		if (hasGraphics) {
+			System.out.println(graphicSets);
+		}
 		// System.out.println(new Interpreter().print(expression));
 
 	}

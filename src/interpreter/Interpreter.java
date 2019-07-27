@@ -6,6 +6,7 @@ import logo.lexer.TokenType;
 import logo.lexer.Token;
 import logo.errorHandlers.RuntimeError;
 import logo.interpreter.Environment;
+import logo.interpreter.Graphics;
 import logo.Logo;
 import java.util.List;
 import java.lang.Math;
@@ -283,6 +284,13 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
 		return null;
 
+	}
+
+	@Override
+	public Void visitForwardsStmt (Stmt.Forwards stmt) {
+		Logo.hasGraphics = true;
+		Logo.graphicSets.add (new Graphics((double)evaluate(stmt.value), 0, Logo.pd, Logo.color, Logo.pensize));
+		return null;
 	}
 
 	
