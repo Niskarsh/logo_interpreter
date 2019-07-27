@@ -143,9 +143,11 @@ public abstract class Stmt {
 	public static class Forwards extends Stmt {
 
 		public final Expr value;
+		public boolean forward = true;
 
-		public Forwards (Expr value) {
+		public Forwards (Expr value, boolean forward) {
 			this.value = value;
+			this.forward = forward;
 		}
 
 		public <R> R accept (Visitor<R> visitor) {

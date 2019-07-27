@@ -110,7 +110,8 @@ public class Parser {
 
 	private Stmt statement () {
 
-		if (match(TokenType.FORWARD)) return forwardStatement();
+		if (match(TokenType.FORWARD)) return forwardStatement(true);
+		if (match(TokenType.BACK)) return forwardStatement(false);
 		if (match(TokenType.REPEAT)) return repeatStatement();
 		if (match(TokenType.WHILE)) return whileStatement();
 		if (match(TokenType.IF)) return ifStatement();
@@ -123,9 +124,10 @@ public class Parser {
 		return expressionStatement();
 	}
 
-	private Stmt forwardStatement() {
+
+	private Stmt forwardStatement(boolean forward) {
 		Expr value = expression();
-		return new Stmt.Forwards(value);
+		return new Stmt.Forwards(value, forward);
 	}
 
 	private Stmt repeatStatement () {

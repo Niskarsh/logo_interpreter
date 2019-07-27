@@ -289,7 +289,12 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 	@Override
 	public Void visitForwardsStmt (Stmt.Forwards stmt) {
 		Logo.hasGraphics = true;
-		Logo.graphicSets.add (new Graphics((double)evaluate(stmt.value), 0, Logo.pd, Logo.color, Logo.pensize));
+		if (stmt.forward) {
+			Logo.graphicSets.add (new Graphics((double)evaluate(stmt.value), 0, Logo.pd, Logo.color, Logo.pensize));	
+		} else {
+			Logo.graphicSets.add (new Graphics(-(double)evaluate(stmt.value), 0, Logo.pd, Logo.color, Logo.pensize));
+		}
+		
 		return null;
 	}
 
