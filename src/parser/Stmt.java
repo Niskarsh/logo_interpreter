@@ -17,6 +17,7 @@ public abstract class Stmt {
 		R visitWhileStmt (While stmt);
 		R visitForwardsStmt (Forwards stmt);
 		R visitRightStmt (Right stmt);
+		R visitPenStmt (Pen stmt);
 	}
 
 	public abstract <R> R accept (Visitor<R> visitor);
@@ -168,6 +169,19 @@ public abstract class Stmt {
 
 		public <R> R accept (Visitor<R> visitor) {
 			return visitor.visitRightStmt(this);
+		}
+	}
+
+	public static class Pen extends Stmt {
+
+		public boolean pd;
+
+		public Pen (boolean pd) {
+			this.pd = pd;
+		}
+
+		public <R> R accept (Visitor<R> visitor) {
+			return visitor.visitPenStmt(this);
 		}
 	}
 }

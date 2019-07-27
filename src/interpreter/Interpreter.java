@@ -310,6 +310,14 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 		return null;
 	}
 
+	@Override
+	public Void visitPenStmt (Stmt.Pen stmt) {
+		Logo.hasGraphics = true;
+		Logo.pd = stmt.pd;
+		
+		return null;
+	}
+
 	
 
 }
