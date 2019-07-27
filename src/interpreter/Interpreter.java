@@ -298,6 +298,18 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 		return null;
 	}
 
+	@Override
+	public Void visitRightStmt (Stmt.Right stmt) {
+		Logo.hasGraphics = true;
+		if (stmt.forward) {
+			Logo.graphicSets.add (new Graphics(0,(double)evaluate(stmt.value), Logo.pd, Logo.color, Logo.pensize));	
+		} else {
+			Logo.graphicSets.add (new Graphics(0,-(double)evaluate(stmt.value), Logo.pd, Logo.color, Logo.pensize));
+		}
+		
+		return null;
+	}
+
 	
 
 }
