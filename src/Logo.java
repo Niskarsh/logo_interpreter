@@ -28,14 +28,16 @@ public class Logo {
 	public static double pensize = 1;
 
 	public static void main(String[] args) throws IOException {
-	    if (args.length > 1) {                                   
-		    System.out.println("Usage: jlox [script]");            
-		    System.exit(64); 
-	    } else if (args.length == 1) {                           
-	     	runFile(args[0]);                                      
-	    } else {                                                 
-	    	runPrompt();                                           
-	    }                                                        
+	    
+		run (args[0]);
+	    // if (args.length > 1) {                                   
+		   //  System.out.println("Usage: jlox [script]");            
+		   //  System.exit(64); 
+	    // } else if (args.length == 1) {                           
+	    //  	runFile(args[0]);                                      
+	    // } else {                                                 
+	    // 	runPrompt();                                           
+	    // }                                                        
   	}
 
   	private static void runFile(String path) throws IOException {
@@ -78,7 +80,7 @@ public class Logo {
 		hadError = true;
 	}
 
-	private static void run (String source) {
+	private static List<Object> run (String source) {
 
 		Scanner scanner = new Scanner(source);
 		List<Token> tokens = scanner.scanTokens();
@@ -86,15 +88,21 @@ public class Logo {
 		List<Stmt> statements = parser.parse();
 		// Expr expression = parser.parse();
 
-		if (hadError) return;
+		// if (hadError) return;
 
 		interpreter.interpret(statements);
 
 		if (hasGraphics) {
 			System.out.println(graphicSets);
 		}
+
+		return graphicSets;
 		// System.out.println(new Interpreter().print(expression));
 
+	}
+
+	private static List<Object> getGraphicSets () {
+		return graphicSets;
 	}
 
 }
